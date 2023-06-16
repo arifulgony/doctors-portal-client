@@ -9,20 +9,18 @@ const AddDoctor = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
     
     const imageHostKey = process.env.REACT_APP_imgbb_key;
-   
 
     const navigate = useNavigate();
     
     const { data: specialties, isLoading } = useQuery({
         queryKey: ['specialty'],
         queryFn: async () => {
-            const res = await fetch('http://localhost:5000/appointmentSpecialty');
+            const res = await fetch('https://doctors-portal-server-eight-pi.vercel.app/appointmentSpecialty');
             const data = await res.json();
             return data;
         }
     })
 
-//https://api.imgbb.com/1/upload
     const handleAddDoctor = data => {
         const image = data.image[0];
         const formData = new FormData();
@@ -44,7 +42,7 @@ const AddDoctor = () => {
                 }
 
                 // save doctor information to the database
-                fetch('http://localhost:5000/doctors', {
+                fetch('https://doctors-portal-server-eight-pi.vercel.app/doctors', {
                     method: 'POST',
                     headers: {
                         'content-type': 'application/json', 
@@ -60,12 +58,12 @@ const AddDoctor = () => {
                 })
             }
         })
-
     }
 
     if(isLoading){
         return <Loading></Loading>
     }
+
     return (
         <div className='w-96 p-7'>
             <h2 className="text-4xl">Add A Doctor</h2>
@@ -110,7 +108,6 @@ const AddDoctor = () => {
             </form>
         </div>
     );
-    
 };
 
 
